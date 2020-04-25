@@ -3,24 +3,24 @@ let getAdd = document.getElementById('add')
 let getBackground = document.getElementById('background')
 let getInputs = document.getElementsByClassName('input')
 let getItems = document.getElementsByClassName('item')
+let getName = document.getElementById('name')
 
-function begin() {
-    getBackground.innerHTML = '<div class="start">Click on the <strong>+</strong> button to get started</div>'
+function noitems() {
+    if (count == 0) {
+        getBackground.innerHTML = '<div class="start">Click on the <strong>+</strong> button to get started</div>'
+    }
+    else if (count == -1) {
+        getBackground.innerHTML = '<div class="end">No more tasks? Happy days!</div>'
+        count += 1
+    }
     getBackground.style.paddingTop = "0px"
     getBackground.style.boxShadow = "0px 0px 0px 0px"
     getBackground.style.backgroundColor = "white"
 }
 
-function end() {
-    getBackground.innerHTML = '<div class="end">No more tasks? Happy days!</div>'
-    getBackground.style.paddingTop = "0px"
-    getBackground.style.boxShadow = "0px 0px 0px 0px"
-    getBackground.style.backgroundColor = "white"
-}
+window.onload = noitems();
 
-window.onload = begin();
-
-getAdd.addEventListener("click", function addevent() {
+function addevent() {
     if (document.getElementById('name').value === '') {
         alert("You need to type something in the input field first!")
         return
@@ -43,15 +43,23 @@ getAdd.addEventListener("click", function addevent() {
         getBackground.style.height = parseInt(heightplus + 35) + "px"
         document.getElementById('name').value = ''
     }
-})
+}
+
+getAdd.addEventListener("click", addevent, false);
+
+getName.addEventListener("keypress", function enter(e) {
+    if (e.keyCode === 13) {
+        addevent();
+    }
+}, false);
 
 function doSomething(e) {
     if (e.target.id === "bin") {
         if (getItems.length == 1) {
             let clickeditem = e.target
             getBackground.removeChild(clickeditem.parentNode)
-            end();
-            count -= 1
+            count -= 2
+            noitems();
         }
         else {
             let clickeditem = e.target
