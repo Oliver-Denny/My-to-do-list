@@ -11,7 +11,7 @@ function noitems() {
     }
     else if (count == -1) {
         getBackground.innerHTML = '<div class="end">No more tasks? Happy days!</div>'
-        count += 1
+        count ++
     }
     getBackground.style.paddingTop = "0px"
     getBackground.style.boxShadow = "0px 0px 0px 0px"
@@ -25,29 +25,21 @@ function addevent() {
         alert("You need to type something in the input field first!")
         return
     }
+    count ++;
     if (getItems.length == 0) {
-        count += 1;
         getBackground.innerHTML = ''
         getBackground.style = null;
-        getBackground.innerHTML += '<div class="item"><div class="column input"></div><div id="spacer" class="column"></div><div id="bin" class="bin column row">X</div></div>'
-        getInputs[count - 1].innerHTML = document.getElementById('name').value
-        let heightplus = getBackground.offsetHeight;
-        getBackground.style.height = parseInt(heightplus + 35) + "px"
-        document.getElementById('name').value = ''
     }
-    else {
-        count += 1
-        getBackground.innerHTML += '<div class="item"><div class="column input"></div><div id="spacer" class="column"></div><div id="bin" class="bin column row">X</div></div>'
-        getInputs[count - 1].innerHTML = document.getElementById('name').value
-        let heightplus = getBackground.offsetHeight;
-        getBackground.style.height = parseInt(heightplus + 35) + "px"
-        document.getElementById('name').value = ''
-    }
+    getBackground.insertAdjacentHTML("beforeend", '<div class="item"><div class="column input"></div><div id="spacer" class="column"></div><div id="bin" class="bin column row">X</div></div>');
+    getInputs[count - 1].innerHTML = document.getElementById('name').value
+    let heightplus = getBackground.offsetHeight;
+    getBackground.style.height = parseInt(heightplus + 35) + "px"
+    document.getElementById('name').value = ''
 }
 
 getAdd.addEventListener("click", addevent, false);
 
-getName.addEventListener("keypress", function enter(e) {
+getName.addEventListener("keypress", (e) => {
     if (e.keyCode === 13) {
         addevent();
     }
